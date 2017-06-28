@@ -585,8 +585,9 @@ static void add_folder(struct Menu *m, struct BrowserState *state, const char *n
   if (state->entrylen == state->entrymax)
   {
     /* need to allocate more space */
-    safe_realloc(&state->entry, sizeof(struct FolderFile) * (state->entrymax += 256));
-    memset(&state->entry[state->entrylen], 0, sizeof(struct FolderFile) * 256);
+    state->entrymax += 256;
+    safe_realloc(&state->entry, state->entrymax * sizeof(struct FolderFile));
+    memset(&state->entry[state->entrylen], 0, 256 * sizeof(struct FolderFile));
     if (m)
       m->data = state->entry;
   }
